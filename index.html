@@ -5,6 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Navbar & Carousel Example</title>
     <style>
+
+        #countdown-container {
+    background-color: #111;
+    color: #fff;
+    text-align: center;
+    padding: 30px 10px;
+    font-family: 'Arial', sans-serif;
+}
+
+#countdown-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #ff69b4;
+}
+
+#countdown {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.time-box {
+    background-color: #222;
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+    animation: pulse 1s infinite alternate;
+}
+
+.time-box label {
+    display: block;
+    margin-top: 5px;
+    font-size: 14px;
+    color: #ccc;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.05); }
+}
+
+#birthday-message {
+    display: none;
+    font-size: 40px;
+    margin-top: 30px;
+    color: #ff69b4;
+    animation: fadeIn 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
         /* General reset */
         * {
             margin: 0;
@@ -153,8 +208,15 @@
         <button class="next" onclick="moveSlide(1)">&#10095;</button>
     </div>
 <!-- Countdown Timer -->
-<div id="countdown" style="text-align:center; font-size:24px; padding:20px; background-color:#222; color:white;">
-    Countdown to 28 June 2025: <span id="timer"></span>
+<div id="countdown-container">
+    <div id="countdown-title">Countdown to Tanuja's Birthday 🎉</div>
+    <div id="countdown">
+        <div class="time-box"><span id="days">00</span><label>Days</label></div>
+        <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+        <div class="time-box"><span id="minutes">00</span><label>Minutes</label></div>
+        <div class="time-box"><span id="seconds">00</span><label>Seconds</label></div>
+    </div>
+    <div id="birthday-message">Happy Birthday Tanuja ❤️</div>
 </div>
     
     <script>
@@ -200,7 +262,39 @@
 
     const intervalId = setInterval(updateCountdown, 1000);
     updateCountdown(); // Call immediately
+const targetDate = new Date("June 28, 2025 00:00:00").getTime();
+const daysSpan = document.getElementById("days");
+const hoursSpan = document.getElementById("hours");
+const minutesSpan = document.getElementById("minutes");
+const secondsSpan = document.getElementById("seconds");
+const birthdayMsg = document.getElementById("birthday-message");
+const countdownDiv = document.getElementById("countdown");
 
+function updateTimer() {
+    const now = new Date().getTime();
+    const distance = targetDate - now;
+
+    if (distance <= 0) {
+        clearInterval(timerInterval);
+        countdownDiv.style.display = "none";
+        birthdayMsg.style.display = "block";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    daysSpan.textContent = String(days).padStart(2, '0');
+    hoursSpan.textContent = String(hours).padStart(2, '0');
+    minutesSpan.textContent = String(minutes).padStart(2, '0');
+    secondsSpan.textContent = String(seconds).padStart(2, '0');
+}
+
+const timerInterval = setInterval(updateTimer, 1000);
+updateTimer(); // Run immediately on load
+    
     </script>
 
 </body>
