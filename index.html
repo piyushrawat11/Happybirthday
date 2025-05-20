@@ -152,7 +152,11 @@
         <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
         <button class="next" onclick="moveSlide(1)">&#10095;</button>
     </div>
-
+<!-- Countdown Timer -->
+<div id="countdown" style="text-align:center; font-size:24px; padding:20px; background-color:#222; color:white;">
+    Countdown to 28 June 2025: <span id="timer"></span>
+</div>
+    
     <script>
         let index = 0;
 
@@ -170,6 +174,33 @@
 
         // Optional: Automatic sliding
         setInterval(() => moveSlide(1), 3000);
+
+        
+    // Countdown logic
+    const countdownElement = document.getElementById("timer");
+    const targetDate = new Date("June 28, 2025 00:00:00").getTime();
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            countdownElement.innerHTML = "The day has arrived!";
+            clearInterval(intervalId);
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    const intervalId = setInterval(updateCountdown, 1000);
+    updateCountdown(); // Call immediately
+
     </script>
 
 </body>
