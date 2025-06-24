@@ -102,7 +102,7 @@
       transition: all 0.3s ease;
     }
 
-    /* Mobile nav (hidden by default) */
+    /* Mobile nav */
     @media (max-width: 768px) {
       .nav-links {
         position: fixed;
@@ -118,7 +118,7 @@
       }
 
       .nav-links.open {
-        max-height: 400px; /* Enough to show all links */
+        max-height: 400px;
       }
 
       .nav-links li {
@@ -133,7 +133,7 @@
       }
 
       .dropdown:hover .dropdown-content {
-        display: none; /* Disable hover on mobile */
+        display: none;
       }
 
       .dropdown.open > .dropdown-content {
@@ -145,7 +145,6 @@
       }
     }
 
-    /* Rotate hamburger lines when open */
     .hamburger.open span:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
     }
@@ -175,9 +174,13 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       flex: 1 1 300px;
+      margin: 20px auto;
+      max-width: 640px;
     }
 
-    .image-item img {
+    .image-item img,
+    .image-item video,
+    .image-item iframe {
       width: 100%;
       border-radius: 10px;
       height: auto;
@@ -235,7 +238,6 @@
       animation: fadeIn 2s ease-in-out;
     }
 
-    /* Animation keyframes */
     @keyframes pulse {
       from {
         transform: scale(1);
@@ -256,7 +258,6 @@
       }
     }
 
-    /* Celebration button */
     .celebration-section {
       text-align: center;
       margin: 30px;
@@ -280,39 +281,6 @@
     .celebration-section button:hover {
       background-color: #d12397;
     }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #fbefff;
-      text-align: center;
-    }
-
-    .video-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-      height: 0;
-      overflow: hidden;
-      margin-top: 30px;
-    }
-
-    .video-container video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    h1 {
-      font-size: 1.8em;
-      margin: 20px;
-      color: #a333a3;
-    }
   </style>
 </head>
 <body>
@@ -325,7 +293,7 @@
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
       <li><a href="activities.html">Activities together</a></li>
-      <li><a href="https://maps.app.goo.gl/cq1nZi9odBsgqHqh9?g_st=i"">Journey so far</a></li>
+      <li><a href="journey.html">Journey so far</a></li>
       <li><a href="plans.html">Future Plans</a></li>
       <li class="dropdown">
         <a href="#" class="dropbtn" tabindex="0">Memories</a>
@@ -347,14 +315,24 @@
     </ul>
   </nav>
 
-   <div class="video-container">
-    <video id="birthdayVideo" muted>
-      <source src="video-output-CBF868E8-BA20-46F5-A6B7-815CEA4B62EB.mov" type="video/mp4">
+  <!-- MP4 Video -->
+  <div class="image-item">
+    <video id="myVideo" width="640" height="360" controls>
+      <source src="HappyBirthday.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
   </div>
 
-   
+  <!-- YouTube Video -->
+  <div class="image-item">
+    <iframe width="640" height="360"
+            src="https://www.youtube.com/watch?v=AR_nB35Dfvs"
+            title="Happy Birthday YouTube Video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+    </iframe>
+  </div>
 
   <div class="celebration-section">
     <h3>Let the celebrations begin!!</h3>
@@ -364,28 +342,15 @@
   <div id="countdown-container">
     <div id="countdown-title">Countdown to Tanuja's Birthday 🎉</div>
     <div id="countdown">
-      <div class="time-box">
-        <span id="days">00</span>
-        <label>Days</label>
-      </div>
-      <div class="time-box">
-        <span id="hours">00</span>
-        <label>Hours</label>
-      </div>
-      <div class="time-box">
-        <span id="minutes">00</span>
-        <label>Minutes</label>
-      </div>
-      <div class="time-box">
-        <span id="seconds">00</span>
-        <label>Seconds</label>
-      </div>
+      <div class="time-box"><span id="days">00</span><label>Days</label></div>
+      <div class="time-box"><span id="hours">00</span><label>Hours</label></div>
+      <div class="time-box"><span id="minutes">00</span><label>Minutes</label></div>
+      <div class="time-box"><span id="seconds">00</span><label>Seconds</label></div>
     </div>
     <div id="birthday-message">Happy Birthday Tanuja ❤️</div>
   </div>
 
   <script>
-    // Hamburger toggle
     const hamburger = document.querySelector(".hamburger");
     const navLinks = document.querySelector(".nav-links");
     const dropdown = document.querySelector(".dropdown");
@@ -395,7 +360,6 @@
       navLinks.classList.toggle("open");
     });
 
-    // Accessibility: toggle menu on enter key on hamburger
     hamburger.addEventListener("keydown", (e) => {
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
@@ -403,7 +367,6 @@
       }
     });
 
-    // Mobile dropdown toggle on click (for Memories menu)
     dropdown.querySelector(".dropbtn").addEventListener("click", (e) => {
       if (window.innerWidth <= 768) {
         e.preventDefault();
@@ -411,7 +374,6 @@
       }
     });
 
-    // Close menu when clicking a link (mobile)
     document.querySelectorAll(".nav-links a").forEach((link) => {
       link.addEventListener("click", () => {
         if (window.innerWidth <= 768) {
@@ -422,9 +384,7 @@
       });
     });
 
-    // Countdown logic
     const targetDate = new Date("2025-06-28T00:00:00").getTime();
-
     const daysSpan = document.getElementById("days");
     const hoursSpan = document.getElementById("hours");
     const minutesSpan = document.getElementById("minutes");
@@ -444,9 +404,7 @@
       }
 
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
@@ -459,9 +417,8 @@
     const timerInterval = setInterval(updateTimer, 1000);
     updateTimer();
 
-    // Confetti
     function startConfetti() {
-      const duration = 15 * 1000;
+      const duration = 15000;
       const animationEnd = Date.now() + duration;
       const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
@@ -471,31 +428,22 @@
 
       const interval = setInterval(() => {
         const timeLeft = animationEnd - Date.now();
-
         if (timeLeft <= 0) {
           clearInterval(interval);
           return;
         }
 
         const particleCount = 50 * (timeLeft / duration);
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-        });
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-        });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
       }, 250);
 
       setTimeout(() => {
-    const video = document.getElementById('myVideo');
-    video.play().catch(error => {
-      console.error("Video couldn't be played automatically:", error);
-    });
-  }, 3000);
+        const video = document.getElementById('myVideo');
+        video.play().catch(error => {
+          console.error("Video couldn't be played automatically:", error);
+        });
+      }, 3000);
     }
   </script>
 </body>
